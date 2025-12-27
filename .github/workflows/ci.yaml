@@ -9,6 +9,7 @@ env:
 
 jobs:
   print-something-on-push:
+    needs: work-with-github-inputs-outputs
     runs-on: ubuntu-24.04
     env:
       job_one_env_var: I'm an env var from job 1
@@ -20,6 +21,7 @@ jobs:
           echo "global env var is: $global_env_var"
           echo "job1 env var is: $job_one_env_var"
           echo "step1 env var is: $step_one_env_var"
+          
       - name: first step
         run: echo "something on push"
   wait-for-the-print-to-finish:
@@ -34,3 +36,12 @@ jobs:
           echo "job1 env var is: $job_one_env_var"
           echo "step1 env var is: $step_one_env_var"
           echo "Rebo: $GITHUB_REPOSITORY"
+  work-with-github-inputs-outputs:
+    runs-on: ubuntu-24.04
+    steps:
+      - id: output
+        run: |
+          echo "you're reading me from github io" >> $GITHUB_OUTPUT
+          echo "$GITHUB_OUTPUT"
+
+        
