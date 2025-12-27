@@ -10,3 +10,8 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - run: echo "something on push"
+  wait-for-the-print-to-finish:
+    needs: print-something-on-push
+    runs-on: ubuntu-24.04
+    steps:
+      - run: echo "something is already printed and now it's my turn"
