@@ -1,0 +1,12 @@
+name: Demo
+
+on:
+  push:
+    branches:
+      - "main"
+
+jobs:
+  print-something-on-push:
+    runs-on: ubuntu-24.04
+    steps:
+      - run: echo "something on push"
