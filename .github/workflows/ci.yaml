@@ -21,7 +21,7 @@ jobs:
           echo "global env var is: $global_env_var"
           echo "job1 env var is: $job_one_env_var"
           echo "step1 env var is: $step_one_env_var"
-          echo "${{steps.output.text}}"
+          echo "${{steps.output.outputs.text}}"
           
       - name: first step
         run: echo "something on push"
