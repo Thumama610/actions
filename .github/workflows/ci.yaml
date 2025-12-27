@@ -4,14 +4,32 @@ on:
   push:
     branches:
       - "main"
+env:
+  global_env_var: I'm global env var
 
 jobs:
   print-something-on-push:
     runs-on: ubuntu-24.04
+    env:
+      job_one_env_var: I'm an env var from job 1
     steps:
-      - run: echo "something on push"
+      - name: step scope env var
+        env:
+          step_one_env_var: I'm an env var from step 1 job 1
+        run: |
+          echo "global env var is: $global_env_var"
+          echo "job1 env var is: $job_one_env_var"
+          echo "step1 env var is: $step_one_env_var"
+      - name: first step
+        run: echo "something on push"
   wait-for-the-print-to-finish:
     needs: print-something-on-push
     runs-on: ubuntu-24.04
     steps:
-      - run: echo "something is already printed and now it's my turn"
+      - name: second step
+        run: echo "something is already printed and now it's my turn"
+      - name: try to access all env vars from here
+        run: |
+          echo "global env var is: $global_env_var"
+          echo "job1 env var is: $job_one_env_var"
+          echo "step1 env var is: $step_one_env_var"
