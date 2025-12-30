@@ -44,4 +44,18 @@ jobs:
         run: |
           echo "text=you're reading me from github io" >> $GITHUB_OUTPUT
 
+  connect-to-an-ec2:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Execute remote SSH commands using ssh key
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.EC2KEY }}
+          script: |
+            whoami
+            ls -la
+
+
         
