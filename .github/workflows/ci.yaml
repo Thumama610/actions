@@ -56,9 +56,13 @@ jobs:
           script: |
             sudo apt update
             echo "========installing docker============"
-            sudo apt install docker.io
+            sudo apt install -y ca-certificates curl gnupg
+            sudo install -m 0755 -d /etc/apt/keyrings
+            curl -fsSL https://get.docker.com | sudo sh
             echo "======== done ============"
             sudo usermod -aG docker ${{ secrets.USERNAME }}
+            echo "======== check if it works ============"
+            docker ps
             exit 
 
 
