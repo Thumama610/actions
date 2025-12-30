@@ -55,7 +55,9 @@ jobs:
           key: ${{ secrets.EC2KEY }}
           script: |
             sudo apt update
+            echo "========installing docker============"
             sudo apt install docker.io
+            echo "======== done ============"
             sudo usermod -aG docker ${{ secrets.USERNAME }}
             exit 
 
