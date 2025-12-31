@@ -60,7 +60,7 @@ jobs:
       - name: Copy file to EC2
         run: |
           ls -la ~/.ssh
-          scp -i .ssh/ec2_key test/scrpits.sh ${{ secrets.USERNAME }}@${{ secrets.HOST }}:~
+          scp -i ~/.ssh/ec2_key test/scrpits.sh ${{ secrets.USERNAME }}@${{ secrets.HOST }}:~
 
   connect-to-an-ec2:
     runs-on: ubuntu-24.04
