@@ -1,9 +1,11 @@
-name: Demo
+name: upload a file into an ec2
 
 on:
   push:
     branches:
       - "main"
+  workflow_dispatch:
+
 env:
   global_env_var: I'm global env var
 
@@ -22,7 +24,7 @@ jobs:
           echo "job1 env var is: $job_one_env_var"
           echo "step1 env var is: $step_one_env_var"
           echo "${{steps.output.outputs.text}}"
-          
+
       - name: first step
         run: echo "something on push"
   wait-for-the-print-to-finish:
@@ -44,8 +46,27 @@ jobs:
         run: |
           echo "text=you're reading me from github io" >> $GITHUB_OUTPUT
 
+  upload-the-script-file:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.EC2KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.HOST }} >> ~/.ssh/known_hosts
+
+      - name: Copy file to EC2
+        run: |
+          scp scripts.sh \
+          ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/home/${{ secrets.USERNAME }}/
+
   connect-to-an-ec2:
     runs-on: ubuntu-24.04
+    needs: upload-the-script-file
     steps:
       - name: Execute remote SSH commands using ssh key
         uses: appleboy/ssh-action@v1
@@ -54,16 +75,8 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.EC2KEY }}
           script: |
-            sudo apt update
-            echo "========installing docker============"
-            sudo apt install -y ca-certificates curl gnupg
-            sudo install -m 0755 -d /etc/apt/keyrings
-            curl -fsSL https://get.docker.com | sudo sh
-            echo "======== done ============"
+            chmod +x scripts.sh
+            ./scripts.sh
             sudo usermod -aG docker ${{ secrets.USERNAME }}
-            echo "======== check if it works ============"
             docker ps
-            exit 
-
-
-        
+            exit
