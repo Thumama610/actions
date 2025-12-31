@@ -54,31 +54,29 @@ jobs:
 
       - name: Setup SSH
         run: |
-           ls -la
-           pwd
-#          mkdir -p ~/.ssh
- #         echo "${{ secrets.EC2KEY }}" > ~/.ssh/id_rsa
-#          chmod 600 ~/.ssh/id_rsa
- #         ssh-keyscan -H ${{ secrets.HOST }} >> ~/.ssh/known_hosts
+          mkdir -p ~/.ssh
+          echo "${{ secrets.EC2KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.HOST }} >> ~/.ssh/known_hosts
 
- #     - name: Copy file to EC2
- #       run: |
- #         scp scripts.sh \
- #         ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/home/${{ secrets.USERNAME }}/
+      - name: Copy file to EC2
+        run: |
+          scp test/scripts.sh \
+          ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/home/${{ secrets.USERNAME }}/
 
-#  connect-to-an-ec2:
-#    runs-on: ubuntu-24.04
-#    needs: upload-the-script-file
-#    steps:
-#      - name: Execute remote SSH commands using ssh key
- #       uses: appleboy/ssh-action@v1
-#        with:
- #         host: ${{ secrets.HOST }}
- #         username: ${{ secrets.USERNAME }}
- #         key: ${{ secrets.EC2KEY }}
- #         script: |
- #           chmod +x scripts.sh
- #           ./scripts.sh
- #          sudo usermod -aG docker ${{ secrets.USERNAME }}
- #           docker ps
- #           exit
+  connect-to-an-ec2:
+    runs-on: ubuntu-24.04
+    needs: upload-the-script-file
+    steps:
+      - name: Execute remote SSH commands using ssh key
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.EC2KEY }}
+          script: |
+            chmod +x scripts.sh
+            ./scripts.sh
+            sudo usermod -aG docker ${{ secrets.USERNAME }}
+            docker ps
+            exit
