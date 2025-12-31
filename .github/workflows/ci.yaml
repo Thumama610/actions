@@ -75,6 +75,7 @@ jobs:
           script: |
             chmod +x ~/scrpits.sh
             ./scrpits.sh
-            sudo usermod -aG docker ${{ secrets.USERNAME }}
             docker ps
             exit
+#            sudo usermod -aG docker ${{ secrets.USERNAME }}
+            
