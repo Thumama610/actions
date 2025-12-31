@@ -62,8 +62,7 @@ jobs:
 
       - name: Copy file to EC2
         run: |
-          scp test/scripts.sh \
-          ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/home/${{ secrets.USERNAME }}/
+          scp -i ${{ secrets.EC2KEY }} test/scrpits.sh ${{ secrets.USERNAME }}@${{ secrets.HOST }}:~
 
   connect-to-an-ec2:
     runs-on: ubuntu-24.04
