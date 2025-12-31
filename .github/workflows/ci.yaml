@@ -65,9 +65,7 @@ jobs:
            mkdir -p ~/.ssh
            echo "${{ secrets.EC2KEY }}" > ~/.ssh/ec2_key
            chmod 600 ~/.ssh/ec2_key
-           scp -i ~/.ssh/ec2_key \
-              -o StrictHostKeyChecking=no \
-              ${{ secrets.USERNAME }}@${{ secrets.HOST }}:~
+           scp -i ~/.ssh/ec2_key ${{ secrets.USERNAME }}@${{ secrets.HOST }}:~
 
   connect-to-an-ec2:
     runs-on: ubuntu-24.04
