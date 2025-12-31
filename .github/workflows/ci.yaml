@@ -59,7 +59,8 @@ jobs:
           chmod 600 ~/.ssh/ec2_key
       - name: Copy file to EC2
         run: |
-           scp -i .ssh/ec2_key scripts.sh ${{ secrets.USERNAME }}@${{ secrets.HOST }}:~
+          
+           scp -i .ssh/ec2_key test/scripts.sh ${{ secrets.USERNAME }}@${{ secrets.HOST }}:~
 
   connect-to-an-ec2:
     runs-on: ubuntu-24.04
