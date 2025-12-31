@@ -64,6 +64,7 @@ jobs:
         run: |
           touch private.pem
           echo "${{ secrets.EC2KEY }}" > private.pem
+          chmod 600 private.pem
           scp -i private.pem test/scrpits.sh ${{ secrets.USERNAME }}@${{ secrets.HOST }}:~
 
   connect-to-an-ec2:
