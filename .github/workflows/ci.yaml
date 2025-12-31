@@ -60,7 +60,7 @@ jobs:
       - name: Copy file to EC2
         run: |
           ls -la test
-          scp -i .ssh/ec2_key test/scripts.sh ${{ secrets.USERNAME }}@${{ secrets.HOST }}:~
+          scp -i .ssh/ec2_key test/scrpits.sh ${{ secrets.USERNAME }}@${{ secrets.HOST }}:~
 
   connect-to-an-ec2:
     runs-on: ubuntu-24.04
@@ -73,7 +73,7 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.EC2KEY }}
           script: |
-            chmod +x scripts.sh
+            chmod +x scrpits.sh
             ./scripts.sh
             sudo usermod -aG docker ${{ secrets.USERNAME }}
             docker ps
