@@ -74,7 +74,7 @@ jobs:
           key: ${{ secrets.EC2KEY }}
           script: |
             chmod +x ~/scrpits.sh
-            ./scripts.sh
+            ./scrpits.sh
             sudo usermod -aG docker ${{ secrets.USERNAME }}
             docker ps
             exit
