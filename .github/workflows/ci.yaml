@@ -62,7 +62,9 @@ jobs:
 
       - name: Copy file to EC2
         run: |
-          scp -i ${{ secrets.EC2KEY }} test/scrpits.sh ${{ secrets.USERNAME }}@${{ secrets.HOST }}:~
+          touch private.pem
+          echo "${{ secrets.EC2KEY }}" > private.pem
+          scp -i private.pem test/scrpits.sh ${{ secrets.USERNAME }}@${{ secrets.HOST }}:~
 
   connect-to-an-ec2:
     runs-on: ubuntu-24.04
