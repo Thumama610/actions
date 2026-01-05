@@ -60,7 +60,7 @@ jobs:
       - name: Copy file to EC2
         run: |
           ls -la ~/.ssh
-          scp -i ~/.ssh/ec2_key -o StrictHostKeyChecking=no test/scrpits.sh ${{ secrets.USERNAME }}@${{ secrets.HOST }}:~
+          scp -i ~/.ssh/ec2_key -o StrictHostKeyChecking=no test/scripts.sh ${{ secrets.USERNAME }}@${{ secrets.HOST }}:~
 
   connect-to-an-ec2:
     runs-on: ubuntu-24.04
@@ -73,9 +73,10 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.EC2KEY }}
           script: |
-            chmod +x ~/scrpits.sh
-            ./scrpits.sh
+            chmod +x ~/scripts.sh
+            ./scripts.sh
             docker ps
             exit
+
 #            sudo usermod -aG docker ${{ secrets.USERNAME }}
-            
+
