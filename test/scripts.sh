@@ -20,7 +20,7 @@ echo "======= starting and testing docker ======"
 sudo systemctl enable docker
 sudo systemctl start docker
 
-sudo usermod -aG docker ${{ secrets.USERNAME }}
+sudo usermod -aG docker $(whoami)
 
 
 docker run hello-world
