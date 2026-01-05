@@ -75,9 +75,8 @@ jobs:
           script: |
             chmod +x ~/scripts.sh
             ./scripts.sh
+            sudo docker ps
             exit
- #           docker ps
-            
 
 #            sudo usermod -aG docker ${{ secrets.USERNAME }}
 
