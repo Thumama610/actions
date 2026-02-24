@@ -6,46 +6,7 @@ on:
       - "main"
   workflow_dispatch:
 
-env:
-  global_env_var: I'm global env var
-
 jobs:
-  print-something-on-push:
-    needs: work-with-github-inputs-outputs
-    runs-on: ubuntu-24.04
-    env:
-      job_one_env_var: I'm an env var from job 1
-    steps:
-      - name: step scope env var
-        env:
-          step_one_env_var: I'm an env var from step 1 job 1
-        run: |
-          echo "global env var is: $global_env_var"
-          echo "job1 env var is: $job_one_env_var"
-          echo "step1 env var is: $step_one_env_var"
-          echo "${{steps.output.outputs.text}}"
-
-      - name: first step
-        run: echo "something on push"
-  wait-for-the-print-to-finish:
-    needs: print-something-on-push
-    runs-on: ubuntu-24.04
-    steps:
-      - name: second step
-        run: echo "something is already printed and now it's my turn"
-      - name: try to access all env vars from here
-        run: |
-          echo "global env var is: $global_env_var"
-          echo "job1 env var is: $job_one_env_var"
-          echo "step1 env var is: $step_one_env_var"
-          echo "Rebo: $GITHUB_REPOSITORY"
-  work-with-github-inputs-outputs:
-    runs-on: ubuntu-24.04
-    steps:
-      - id: output
-        run: |
-          echo "text=you're reading me from github io" >> $GITHUB_OUTPUT
-
   upload-the-script-file:
     runs-on: ubuntu-24.04
     steps:
@@ -78,5 +39,4 @@ jobs:
             sudo docker ps
             exit
 
-#            sudo usermod -aG docker ${{ secrets.USERNAME }}
 
